@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "ccwc.h"
 
 int tests_run = 0;
 int tests_passed = 0;
@@ -14,6 +15,7 @@ void test_byte_count() {
 }
 
 int main() {
+  putchar('\n');
   test_byte_count();
   printf("%d of %d tests passed.\n", tests_passed, tests_run);
   return tests_passed != tests_run;

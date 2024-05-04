@@ -1,0 +1,14 @@
+# Exclude all object files and binaries
+*.o
+/bin/
+/build/
+ccwc
+
+# Exclude all backup and OS generated files
+*~
+.DS_Store
+Thumbs.db
+
+# Exclude editor/IDE specific files
+.vscode/
+*.code-workspace
