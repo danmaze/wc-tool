@@ -2,22 +2,53 @@
 #include <string.h>
 #include "ccwc.h"
 
-int ccwc_byte_count(const char *filename) {
-  FILE *file = fopen(filename, "rb");
+FILE* open_file(const char* filename, const char* mode) {
+  FILE* file = fopen(filename, mode);
   if (file == NULL) {
     perror("File opening failed");
-    return -1;
+    return NULL;
   }
+  return file;
+}
 
-  int count = 0;
+int byte_count(const char *filename) {
+  FILE *file = open_file(filename, "rb");
+  if (!file) return -1;
+
+  int byte_count = 0;
   char buffer[1024];
   while (!feof(file)) {
     int bytes_read = fread(buffer, 1, sizeof(buffer), file);
-    count += bytes_read;
+    if (ferror(file)) {
+      fclose(file);
+      return -1;
+    }
+    byte_count += bytes_read;
   }
 
   fclose(file);
-  return count;
+  return byte_count;
+}
+
+int line_count(const char *filename) {
+  FILE *file = open_file(filename, "r");
+  if (!file) return -1;
+
+  int line_count = 0;
+  int ch;
+  while ((ch = fgetc(file)) != EOF) {
+    if (ferror(file)) {
+      fclose(file);
+      return -1;
+    }
+    if (ch == '\n') {
+      line_count++;
+    }
+  }
+  
+
+  fclose(file);
+  return line_count;
 }
 
 #ifndef TEST_BUILD
@@ -27,15 +58,23 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+  int result = 0;
   if (strcmp(argv[1], "-c") == 0) {
-    int byte_count = ccwc_byte_count(argv[2]);
-    if (byte_count != -1) {
-      printf("%d %s\n", byte_count, argv[2]);
-    } else {
-      return 1;
-    }
+    result = byte_count(argv[2]);
+  } else if (strcmp(argv[1], "-l") == 0) {
+    result = line_count(argv[2]);
+  } else {
+    fprintf(stderr, "Invalid option. Use -c for byte count or -l for line count.\n");
+    return 1;
   }
 
+  if (result == -1) {
+    fprintf(stderr, "Error processing file %s\n", argv[2]);
+    return 1;
+  } else {
+    printf("%d %s\n", result, argv[2]);
+  }
+  
   return 0;
 }
 #endif

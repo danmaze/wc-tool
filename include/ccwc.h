@@ -1,6 +1,7 @@
 #ifndef CCWC_H
 #define CCWC_H
 
-int ccwc_byte_count(const char *filename);
+int byte_count(const char *filename);
+int line_count(const char *filename);
 
 #endif

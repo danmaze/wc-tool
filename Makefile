@@ -5,7 +5,7 @@ TEST_DIR=tests
 BUILD_DIR=build
 
 OBJS_MAIN=${BUILD_DIR}/ccwc.o
-OBJS_TEST=${BUILD_DIR}/test_byte_count.o ${BUILD_DIR}/ccwc_test.o
+OBJS_TEST=${BUILD_DIR}/test_ccwc.o ${BUILD_DIR}/ccwc_test.o
 
 all: ccwc test
 
@@ -22,13 +22,13 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 test: $(OBJS_TEST)
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)/test_byte_count $^
-	./$(BUILD_DIR)/test_byte_count
+	$(CC) $(CFLAGS) -o $(BUILD_DIR)/test_ccwc $^
+	./$(BUILD_DIR)/test_ccwc
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 clean:
-	rm -f $(BUILD_DIR)/*.o $(BUILD_DIR)/ccwc $(BUILD_DIR)/test_byte_count ccwc
+	rm -f $(BUILD_DIR)/*.o $(BUILD_DIR)/ccwc $(BUILD_DIR)/test_ccwc ccwc
 
 .PHONY: clean test ccwc all
