@@ -34,11 +34,22 @@ void test_word_count() {
   }
 }
 
+void test_char_count() {
+  tests_run++;
+  if (char_count("test.txt") == 339292) {
+    tests_passed++;
+    printf("Test 'character count' passed.\n");
+  } else {
+    printf("Test 'character count' failed.\n");
+  }
+}
+
 int main() {
   putchar('\n');
   test_byte_count();
   test_line_count();
   test_word_count();
+  test_char_count();
   printf("%d of %d tests passed.\n", tests_passed, tests_run);
   return tests_passed != tests_run;
 }
