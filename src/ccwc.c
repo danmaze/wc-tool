@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "ccwc.h"
 
 FILE* open_file(const char* filename, const char* mode) {
@@ -51,6 +52,31 @@ int line_count(const char *filename) {
   return line_count;
 }
 
+int word_count(const char *filename) {
+  FILE *file = open_file(filename, "r");
+  if (!file) return -1;
+
+  int word_count = 0;
+  int in_word = 0;
+  int ch;
+
+  while ((ch = fgetc(file)) != EOF) {
+    if (isspace(ch)) {
+      in_word = 0;
+    } else if (!in_word) {
+      in_word = 1;
+      word_count++;
+    }
+    if (ferror(file)) {
+      fclose(file);
+      return -1;
+    }
+  }
+
+  fclose(file);
+  return word_count;
+}
+
 #ifndef TEST_BUILD
 int main(int argc, char *argv[]) {
   if (argc != 3) {
@@ -63,8 +89,10 @@ int main(int argc, char *argv[]) {
     result = byte_count(argv[2]);
   } else if (strcmp(argv[1], "-l") == 0) {
     result = line_count(argv[2]);
+  } else if (strcmp(argv[1], "-w") == 0) {
+    result = word_count(argv[2]);
   } else {
-    fprintf(stderr, "Invalid option. Use -c for byte count or -l for line count.\n");
+    fprintf(stderr, "Invalid option. Use -c for byte count or -l for line count, -w for word count.\n");
     return 1;
   }
 

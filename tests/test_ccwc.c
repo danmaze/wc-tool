@@ -24,10 +24,21 @@ void test_line_count() {
   }
 }
 
+void test_word_count() {
+  tests_run++;
+  if (word_count("test.txt") == 58164) {
+    tests_passed++;
+    printf("Test 'word count' passed.\n");
+  } else {
+    printf("Test 'word count' failed.\n");
+  }
+}
+
 int main() {
   putchar('\n');
   test_byte_count();
   test_line_count();
+  test_word_count();
   printf("%d of %d tests passed.\n", tests_passed, tests_run);
   return tests_passed != tests_run;
 }
