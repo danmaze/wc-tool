@@ -111,34 +111,53 @@ int char_count(const char *filename) {
   return char_count;
 }
 
+void print_result_or_error(int result, const char* filename) {
+  if (result == -1) {
+    fprintf(stderr, "Error processing file %s\n", filename);
+  } else {
+    printf("%8d %s\n", result, filename);
+  }
+}
+
+void handle_default_option(const char* filename) {
+  int num_lines = line_count(filename);
+  int num_words = word_count(filename);
+  int num_bytes = byte_count(filename);
+
+  if (num_lines == -1 || num_words == -1 || num_bytes == -1) {
+    print_result_or_error(-1, filename);
+  }
+
+  printf("%8d%8d%8d %s\n", num_lines, num_words, num_bytes, filename);
+}
+
+int handle_specific_option(char option, const char* filename) {
+  switch (option) {
+    case 'c': return byte_count(filename);
+    case 'l': return line_count(filename);
+    case 'w': return word_count(filename);
+    case 'm': return char_count(filename);
+    default:
+      fprintf(stderr, "Invalid option. Use -c for byte count, -l for line count, -w for word count, or -m for character count.\n");
+      return -1;
+  }
+}
+
 #ifndef TEST_BUILD
 int main(int argc, char *argv[]) {
-  if (argc != 3) {
-    fprintf(stderr, "Usage: %s -c <filename>\n", argv[0]);
+  if (argc < 2) {
+    fprintf(stderr, "Usage: %s [-c|-l|-w|-m] <filename>\n", argv[0]);
     return 1;
   }
 
-  int result = 0;
-  if (strcmp(argv[1], "-c") == 0) {
-    result = byte_count(argv[2]);
-  } else if (strcmp(argv[1], "-l") == 0) {
-    result = line_count(argv[2]);
-  } else if (strcmp(argv[1], "-w") == 0) {
-    result = word_count(argv[2]);
-  } else if (strcmp(argv[1], "-m") == 0) {
-    result = char_count(argv[2]);
-  } else {
-    fprintf(stderr, "Invalid option. Use -c for byte count, -l for line count, -w for word count, or -m for character count.\n");
-    return 1;
+  if (argc == 2) {
+    handle_default_option(argv[1]);
+    return 0;
   }
 
-  if (result == -1) {
-    fprintf(stderr, "Error processing file %s\n", argv[2]);
-    return 1;
-  } else {
-    printf("  %d %s\n", result, argv[2]);
-  }
-  
-  return 0;
+  int result = handle_specific_option(argv[1][1], argv[2]);
+  print_result_or_error(result, argv[2]);
+
+  return result == -1 ? 1 : 0;
 }
 #endif
