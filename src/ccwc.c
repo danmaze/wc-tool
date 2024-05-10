@@ -6,6 +6,7 @@
 #include "ccwc.h"
 
 FILE* open_file(const char* filename, const char* mode) {
+  if (filename == NULL || mode == NULL) return NULL;
   FILE* file = fopen(filename, mode);
   if (file == NULL) return NULL;
   return file;

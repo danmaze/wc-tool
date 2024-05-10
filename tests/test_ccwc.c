@@ -4,52 +4,63 @@
 int tests_run = 0;
 int tests_passed = 0;
 
-void test_byte_count() {
+void print_test_result(int condition, const char* test_name) {
   tests_run++;
-  if (byte_count("test.txt") == 342190) {
+  if (condition) {
+    printf("PASS: %s\n", test_name);
     tests_passed++;
-    printf("Test 'byte count' passed.\n");
   } else {
-    printf("Test 'byte count' failed.\n");
+    printf("FAIL: %s\n", test_name);
   }
+}
+
+void test_open_file_existing_file() {
+  print_test_result(open_file("test.txt", "r") != NULL, "open file with existing file");
+}
+
+void test_open_file_non_existing_file() {
+  print_test_result(open_file("non_existing_file.txt", "r") == NULL, "open file with non existing file");
+}
+
+void test_open_file_null_file_name() {
+  print_test_result(open_file(NULL, "r") == NULL, "open file with null file name");
+}
+
+void test_open_file_invalid_mode() {
+  print_test_result(open_file("test.txt", "invalide_mode") == NULL, "open file with invalid mode");
+}
+
+void test_open_file_null_mode() {
+  print_test_result(open_file("test.txt", NULL) == NULL, "open file with null mode");
+}
+
+void test_byte_count() {
+    print_test_result(byte_count("test.txt") == 342190, "byte count");
 }
 
 void test_line_count() {
-  tests_run++;
-  if (line_count("test.txt") == 7145) {
-    tests_passed++;
-    printf("Test 'line count' passed.\n");
-  } else {
-    printf("Test 'line count' failed.\n");
-  }
+    print_test_result(line_count("test.txt") == 7145, "line count");
 }
 
 void test_word_count() {
-  tests_run++;
-  if (word_count("test.txt") == 58164) {
-    tests_passed++;
-    printf("Test 'word count' passed.\n");
-  } else {
-    printf("Test 'word count' failed.\n");
-  }
+    print_test_result(word_count("test.txt") == 58164, "word count");
 }
 
 void test_char_count() {
-  tests_run++;
-  if (char_count("test.txt") == 339292) {
-    tests_passed++;
-    printf("Test 'character count' passed.\n");
-  } else {
-    printf("Test 'character count' failed.\n");
-  }
+    print_test_result(char_count("test.txt") == 339292, "character count");
 }
 
 int main() {
-  putchar('\n');
-  test_byte_count();
-  test_line_count();
-  test_word_count();
-  test_char_count();
-  printf("%d of %d tests passed.\n", tests_passed, tests_run);
-  return tests_passed != tests_run;
+    putchar('\n');
+    test_open_file_existing_file();
+    test_open_file_non_existing_file();
+    test_open_file_null_file_name();
+    test_open_file_invalid_mode();
+    test_open_file_null_mode();
+    test_byte_count();
+    test_line_count();
+    test_word_count();
+    test_char_count();
+    printf("%d of %d tests passed.\n", tests_passed, tests_run);
+    return tests_passed != tests_run;
 }
