@@ -1,0 +1,9 @@
+    Hello    world,   this is    a test.  
+
+Tabs    between	this line	and the end.
+
+Multiple spaces    and		some tabs.
+
+New lines and more spaces
+        
+The end of the file with trailing spaces.     

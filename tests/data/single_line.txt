@@ -1,0 +1,1 @@
+A test file that contain text but no newline characters. This is to check if line_count correctly identifies lines.

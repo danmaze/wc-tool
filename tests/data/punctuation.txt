@@ -1,0 +1,9 @@
+Hello, world! This isn't a drill.
+
+- Testing: punctuation; marks...
+- Here's [an example] {with} various (types) of punctuation!
+- "Quoted text!"
+- 'Single quotes'
+- Dashes—yes—like—this.
+- Ellipses... and more...
+- The quick (brown) fox: jumps over; the lazy dog!

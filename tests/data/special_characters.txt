@@ -1,0 +1,48 @@
+====================================================
+Bash script used to create file with actual control characters
+====================================================
+
+#!/bin/bash
+
+# Create a file with actual control characters
+cat > tests/data/special_characters.txt <<EOF
+Line1 with CR$(printf '\r')Line2 with LF$(printf '\n')Line3 with CRLF$(printf '\r\n')
+
+Special Characters:
+- Tabs$(printf '\t')are$(printf '\t')here
+- Vertical tab$(printf '\v')is$(printf '\t')here
+- Form feed$(printf '\f')character
+- Bell$(printf '\a')sound
+
+Backslashes: \\
+Single quotes: 'end'
+Double quotes: "start"
+Backticks: `code`
+
+Mixed newlines and other characters:
+Line after CR$(printf '\r')Line after LF$(printf '\n')Line after CRLF$(printf '\r\n')
+
+End of the file.
+EOF
+
+====================================================
+
+Line1 with CR
+Line2 with LFLine3 with CRLF
+
+Special Characters:
+- Tabs	are	here
+- Vertical tabis	here
+- Form feedcharacter
+- Bellsound
+
+Backslashes: \
+Single quotes: 'end'
+Double quotes: "start"
+Backticks: 
+
+Mixed newlines and other characters:
+Line after CR
+Line after LFLine after CRLF
+
+End of the file.

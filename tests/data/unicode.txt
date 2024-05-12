@@ -1,0 +1,17 @@
+Hello, world! 👋🌍
+
+Привет, мир! (Hello, world in Russian)
+こんにちは世界 (Hello, world in Japanese)
+你好，世界！(Hello, world in Chinese)
+
+Emojis: 😊 🚀 🌟 🔥 💧 🎉
+
+Combining characters: Åström (Latin letters with diacritics)
+
+Hindi: नमस्ते दुनिया (Namaste World)
+Arabic: مرحبا بالعالم (Hello World)
+
+Miscellaneous Unicode: 
+- Mathematical Bold: 𝐇𝐞𝐥𝐥𝐨
+- Full-width: Ｈｅｌｌｏ, Ｗｏｒｌｄ
+- Currency: € £ ¥ $ ¢
