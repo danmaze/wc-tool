@@ -185,6 +185,15 @@ int get_count_for_specific_option(char option, FILE *file) {
     }
 }
 
+FILE *open_file_or_fail(const char *filename) {
+    FILE *file = open_file(filename);
+    if (file == NULL) {
+        fprintf(stderr, "Error opening file %s\n", filename);
+        exit(1);
+    }
+    return file;
+}
+
 #ifndef TEST_BUILD
 int main(int argc, char *argv[]) {
     if (argc > 3) {
@@ -206,22 +215,14 @@ int main(int argc, char *argv[]) {
         } else {
             // a filename is provided without option
             filename = argv[1];
-            input = open_file(filename);
-            if (input == NULL) {
-                fprintf(stderr, "Error opening file %s\n", filename);
-                return 1;
-            }
+            input = open_file_or_fail(filename);
             handle_default_option(input, filename);
             fclose(input);
         }
     } else if (argc == 3) {
         // both option and filename are provided
         filename = argv[2];
-        input = open_file(filename);
-        if (input == NULL) {
-            fprintf(stderr, "Error opening file %s\n", filename);
-            return 1;
-        }
+        input = open_file_or_fail(filename);
         int result = get_count_for_specific_option(argv[1][1], input);
         print_result_or_error(result, filename);
         fclose(input);
