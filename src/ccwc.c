@@ -96,11 +96,8 @@ int char_count(FILE *file) {
 }
 
 int count_all(FILE *file, int *line_count, int *word_count, int *byte_count, int *char_count) {
-    /* added to support default option (multiple counting operations) in a single pass without
-    needing to load the entire file into a large buffer when dealing with piped input which
-    would be memory inefficient. Piped input is a non-seekable stream so invoking rewind after
-    each individual count wouldn't work */
-
+    // added to support multiple counting operations in a single pass
+    
     set_locale();
     if (!file) return -1;
 
@@ -124,7 +121,7 @@ int count_all(FILE *file, int *line_count, int *word_count, int *byte_count, int
             if (len == (size_t)-2) break;
             len = (len == 0) ? 1 : len;
 
-            // Check each byte in the possible multibyte char
+            // check each byte in the possible multibyte char
             for (size_t j = 0; j < len; j++) {
                 if (buffer[i + j] == '\n') {
                     (*line_count)++;
