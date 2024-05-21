@@ -3,10 +3,10 @@
 
 #include <stdio.h>
 
-FILE *open_file(const char *filename, const char *mode);
-int byte_count(const char *filename);
-int line_count(const char *filename);
-int word_count(const char *filename);
-int char_count(const char *filename);
+FILE *open_file(const char *filename);
+int byte_count(FILE *file);
+int line_count(FILE *file);
+int word_count(FILE *file);
+int char_count(FILE *file);
 
 #endif

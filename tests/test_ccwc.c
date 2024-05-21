@@ -27,191 +27,291 @@ char* get_test_file_path(const char* filename) {
 }
 
 void test_open_file_existing_file() {
-    FILE* file = open_file(get_test_file_path("standard.txt"), "r");
+    FILE* file = open_file(get_test_file_path("standard.txt"));
     print_test_result(file != NULL, "open file with existing file");
     if (file) fclose(file);
 }
 
 void test_open_file_non_existing_file() {
-    FILE* file = open_file(get_test_file_path("non_existing_file.txt"), "r");
-    print_test_result(file == NULL, "open file with non existing file");
+    FILE* file = open_file(get_test_file_path("non_existing_file.txt"));
+    print_test_result(file == NULL, "open file with non-existing file");
     if (file) fclose(file);  // Redundant if test passes but still good practice
 }
 
 void test_open_file_null_file_name() {
-    print_test_result(open_file(NULL, "r") == NULL, "open file with null file name");
+    print_test_result(open_file(NULL) == NULL, "open file with null file name");
 }
 
-void test_open_file_invalid_mode() {
-    FILE* file = open_file(get_test_file_path("standard.txt"), "invalide_mode");
-    print_test_result(file == NULL, "open file with invalid mode");
-    if (file) fclose(file);
-}
-
-void test_open_file_null_mode() {
-    FILE* file = open_file(get_test_file_path("standard.txt"), NULL);
-    print_test_result(file == NULL, "open file with null mode");
-    if (file) fclose(file);
+void test_byte_count_null_file() {
+    print_test_result(byte_count(NULL) == -1, "byte count with null file");
 }
 
 void test_byte_count_standard_file() {
-    char* file_path = get_test_file_path("standard.txt");
-    print_test_result(byte_count(file_path) == 342190, "byte count with standard file");
+    FILE* file = open_file(get_test_file_path("standard.txt"));
+    if (file) {
+        print_test_result(byte_count(file) == 342190, "byte count with standard file");
+        fclose(file);
+    }
 }
 
 void test_byte_count_empty_file() {
-    char* file_path = get_test_file_path("empty.txt");
-    print_test_result(byte_count(file_path) == 0, "byte count with empty file");
+    FILE* file = open_file(get_test_file_path("empty.txt"));
+    if (file) {
+        print_test_result(byte_count(file) == 0, "byte count with empty file");
+        fclose(file);
+    }
 }
 
 void test_byte_count_single_char_file() {
-    char* file_path = get_test_file_path("single_char.txt");
-    print_test_result(byte_count(file_path) == 1, "byte count with single char file");
+    FILE* file = open_file(get_test_file_path("single_char.txt"));
+    if (file) {
+        print_test_result(byte_count(file) == 1, "byte count with single char file");
+        fclose(file);
+    }
 }
 
 void test_byte_count_newline_file() {
-    char* file_path = get_test_file_path("newline.txt");
-    print_test_result(byte_count(file_path) == 1, "byte count with newline file");
+    FILE* file = open_file(get_test_file_path("newline.txt"));
+    if (file) {
+        print_test_result(byte_count(file) == 1, "byte count with newline file");
+        fclose(file);
+    }
 }
 
 void test_byte_count_unicode_file() {
-    char* file_path = get_test_file_path("unicode.txt");
-    print_test_result(byte_count(file_path) == 521, "byte count with unicode multibyte chars");
+    FILE* file = open_file(get_test_file_path("unicode.txt"));
+    if (file) {
+        print_test_result(byte_count(file) == 521, "byte count with unicode multibyte chars");
+        fclose(file);
+    }
 }
 
 void test_byte_count_file_with_punctuation() {
-    char* file_path = get_test_file_path("punctuation.txt");
-    print_test_result(byte_count(file_path) == 271, "byte count with file with punctuation");
+    FILE* file = open_file(get_test_file_path("punctuation.txt"));
+    if (file) {
+        print_test_result(byte_count(file) == 271, "byte count with file with punctuation");
+        fclose(file);
+    }
 }
 
 void test_byte_count_file_with_whitespaces() {
-    char* file_path = get_test_file_path("whitespaces.txt");
-    print_test_result(byte_count(file_path) == 202, "byte count with file with whitespaces");
+    FILE* file = open_file(get_test_file_path("whitespaces.txt"));
+    if (file) {
+        print_test_result(byte_count(file) == 202, "byte count with file with whitespaces");
+        fclose(file);
+    }
+}
+
+void test_line_count_null_file() {
+    print_test_result(line_count(NULL) == -1, "line count with null file");
 }
 
 void test_line_count_standard_file() {
-    char* file_path = get_test_file_path("standard.txt");
-    print_test_result(line_count(file_path) == 7145, "line count with standard file");
+    FILE* file = open_file(get_test_file_path("standard.txt"));
+    if (file) {
+        print_test_result(line_count(file) == 7145, "line count with standard file");
+        fclose(file);
+    }
 }
 
 void test_line_count_single_line_file() {
-    char* file_path = get_test_file_path("single_line.txt");
-    print_test_result(line_count(file_path) == 1, "line count with single line file");
+    FILE* file = open_file(get_test_file_path("single_line.txt"));
+    if (file) {
+        print_test_result(line_count(file) == 1, "line count with single line file");
+        fclose(file);
+    }
 }
 
 void test_line_count_empty_file() {
-    char* file_path = get_test_file_path("empty.txt");
-    print_test_result(line_count(file_path) == 0, "line count with empty file");
+    FILE* file = open_file(get_test_file_path("empty.txt"));
+    if (file) {
+        print_test_result(line_count(file) == 0, "line count with empty file");
+        fclose(file);
+    }
 }
 
 void test_line_count_multiple_lines_file() {
-    char* file_path = get_test_file_path("multiple_lines.txt");
-    print_test_result(line_count(file_path) == 17, "line count with multiple line file");
+    FILE* file = open_file(get_test_file_path("multiple_lines.txt"));
+    if (file) {
+        print_test_result(line_count(file) == 17, "line count with multiple line file");
+        fclose(file);
+    }
 }
 
 void test_line_count_empty_lines_file() {
-    char* file_path = get_test_file_path("empty_lines.txt");
-    print_test_result(line_count(file_path) == 7, "line count with empty lines file");
+    FILE* file = open_file(get_test_file_path("empty_lines.txt"));
+    if (file) {
+        print_test_result(line_count(file) == 7, "line count with empty lines file");
+        fclose(file);
+    }
 }
 
 void test_line_count_file_with_punctuation() {
-    char* file_path = get_test_file_path("punctuation.txt");
-    print_test_result(line_count(file_path) == 9, "line count with file with punctuation");
+    FILE* file = open_file(get_test_file_path("punctuation.txt"));
+    if (file) {
+        print_test_result(line_count(file) == 9, "line count with file with punctuation");
+        fclose(file);
+    }
 }
 
 void test_line_count_file_with_whitespaces() {
-    char* file_path = get_test_file_path("whitespaces.txt");
-    print_test_result(line_count(file_path) == 9, "line count with file with whitespaces");
+    FILE* file = open_file(get_test_file_path("whitespaces.txt"));
+    if (file) {
+        print_test_result(line_count(file) == 9, "line count with file with whitespaces");
+        fclose(file);
+    }
 }
 
 void test_line_count_file_with_newlines_and_special_chars() {
-    char* file_path = get_test_file_path("special_characters.txt");
-    print_test_result(line_count(file_path) == 48, "line count with file with newlines and special chars");
+    FILE* file = open_file(get_test_file_path("special_characters.txt"));
+    if (file) {
+        print_test_result(line_count(file) == 48, "line count with file with newlines and special chars");
+        fclose(file);
+    }
+}
+
+void test_word_count_null_file() {
+    print_test_result(word_count(NULL) == -1, "word count with null file");
 }
 
 void test_word_count_standard_file() {
-    char* file_path = get_test_file_path("standard.txt");
-    print_test_result(word_count(file_path) == 58164, "word count with standard file");
+    FILE* file = open_file(get_test_file_path("standard.txt"));
+    if (file) {
+        print_test_result(word_count(file) == 58164, "word count with standard file");
+        fclose(file);
+    }
 }
 
 void test_word_count_empty_file() {
-    char* file_path = get_test_file_path("empty.txt");
-    print_test_result(word_count(file_path) == 0, "word count with empty file");
+    FILE* file = open_file(get_test_file_path("empty.txt"));
+    if (file) {
+        print_test_result(word_count(file) == 0, "word count with empty file");
+        fclose(file);
+    }
 }
 
 void test_word_count_single_word_file() {
-    char* file_path = get_test_file_path("single_word.txt");
-    print_test_result(word_count(file_path) == 1, "word count with single word file");
+    FILE* file = open_file(get_test_file_path("single_word.txt"));
+    if (file) {
+        print_test_result(word_count(file) == 1, "word count with single word file");
+        fclose(file);
+    }
 }
 
 void test_word_count_single_char_file() {
-    char* file_path = get_test_file_path("single_char.txt");
-    print_test_result(word_count(file_path) == 1, "word count with single char file");
+    FILE* file = open_file(get_test_file_path("single_char.txt"));
+    if (file) {
+        print_test_result(word_count(file) == 1, "word count with single char file");
+        fclose(file);
+    }
 }
 
 void test_word_count_multiple_lines_file() {
-    char* file_path = get_test_file_path("multiple_lines.txt");
-    print_test_result(word_count(file_path) == 276, "word count with multiple lines file");
+    FILE* file = open_file(get_test_file_path("multiple_lines.txt"));
+    if (file) {
+        print_test_result(word_count(file) == 276, "word count with multiple lines file");
+        fclose(file);
+    }
 }
 
 void test_word_count_unicode_file() {
-    char* file_path = get_test_file_path("unicode.txt");
-    print_test_result(word_count(file_path) == 62, "word count with unicode file");
+    FILE* file = open_file(get_test_file_path("unicode.txt"));
+    if (file) {
+        print_test_result(word_count(file) == 62, "word count with unicode file");
+        fclose(file);
+    }
 }
 
 void test_word_count_file_with_punctuation() {
-    char* file_path = get_test_file_path("punctuation.txt");
-    print_test_result(word_count(file_path) == 41, "word count with file with punctuation");
+    FILE* file = open_file(get_test_file_path("punctuation.txt"));
+    if (file) {
+        print_test_result(word_count(file) == 41, "word count with file with punctuation");
+        fclose(file);
+    }
 }
 
 void test_word_count_file_with_whitespaces() {
-    char* file_path = get_test_file_path("whitespaces.txt");
-    print_test_result(word_count(file_path) == 31, "word count with file with whitespaces");
+    FILE* file = open_file(get_test_file_path("whitespaces.txt"));
+    if (file) {
+        print_test_result(word_count(file) == 31, "word count with file with whitespaces");
+        fclose(file);
+    }
+}
+
+void test_char_count_null_file() {
+    print_test_result(char_count(NULL) == -1, "character count with null file");
 }
 
 void test_char_count_standard_file() {
-    char* file_path = get_test_file_path("standard.txt");
-    print_test_result(char_count(file_path) == 339292, "character count with standard file");
+    FILE* file = open_file(get_test_file_path("standard.txt"));
+    if (file) {
+        print_test_result(char_count(file) == 339292, "character count with standard file");
+        fclose(file);
+    }
 }
 
 void test_char_count_empty_file() {
-    char* file_path = get_test_file_path("empty.txt");
-    print_test_result(char_count(file_path) == 0, "character count with empty file");
+    FILE* file = open_file(get_test_file_path("empty.txt"));
+    if (file) {
+        print_test_result(char_count(file) == 0, "character count with empty file");
+        fclose(file);
+    }
 }
 
 void test_char_count_single_word_file() {
-    char* file_path = get_test_file_path("single_word.txt");
-    print_test_result(char_count(file_path) == 5, "character count with single word file");
+    FILE* file = open_file(get_test_file_path("single_word.txt"));
+    if (file) {
+        print_test_result(char_count(file) == 5, "character count with single word file");
+        fclose(file);
+    }
 }
 
 void test_char_count_single_char_file() {
-    char* file_path = get_test_file_path("single_char.txt");
-    print_test_result(char_count(file_path) == 1, "character count with single char file");
+    FILE* file = open_file(get_test_file_path("single_char.txt"));
+    if (file) {
+        print_test_result(char_count(file) == 1, "character count with single char file");
+        fclose(file);
+    }
 }
 
 void test_char_count_single_line_file() {
-    char* file_path = get_test_file_path("single_line.txt");
-    print_test_result(char_count(file_path) == 116, "character count with single line file");
+    FILE* file = open_file(get_test_file_path("single_line.txt"));
+    if (file) {
+        print_test_result(char_count(file) == 116, "character count with single line file");
+        fclose(file);
+    }
 }
 
 void test_char_count_multiple_lines_file() {
-    char* file_path = get_test_file_path("multiple_lines.txt");
-    print_test_result(char_count(file_path) == 1672, "character count with multiple lines file");
+    FILE* file = open_file(get_test_file_path("multiple_lines.txt"));
+    if (file) {
+        print_test_result(char_count(file) == 1672, "character count with multiple lines file");
+        fclose(file);
+    }
 }
 
 void test_char_count_file_with_punctuation() {
-    char* file_path = get_test_file_path("punctuation.txt");
-    print_test_result(char_count(file_path) == 265, "character count with file with punctuation");
+    FILE* file = open_file(get_test_file_path("punctuation.txt"));
+    if (file) {
+        print_test_result(char_count(file) == 265, "character count with file with punctuation");
+        fclose(file);
+    }
 }
 
 void test_char_count_file_with_whitespaces() {
-    char* file_path = get_test_file_path("whitespaces.txt");
-    print_test_result(char_count(file_path) == 202, "character count with file with whitespaces");
+    FILE* file = open_file(get_test_file_path("whitespaces.txt"));
+    if (file) {
+        print_test_result(char_count(file) == 202, "character count with file with whitespaces");
+        fclose(file);
+    }
 }
 
 void test_char_count_newlines_and_special_characters() {
-    char* file_path = get_test_file_path("special_characters.txt");
-    print_test_result(char_count(file_path) == 1124, "character count with newlines and special characters");
+    FILE* file = open_file(get_test_file_path("special_characters.txt"));
+    if (file) {
+        print_test_result(char_count(file) == 1124, "character count with newlines and special characters");
+        fclose(file);
+    }
 }
 
 int main() {
@@ -220,9 +320,8 @@ int main() {
     test_open_file_existing_file();
     test_open_file_non_existing_file();
     test_open_file_null_file_name();
-    test_open_file_invalid_mode();
-    test_open_file_null_mode();
 
+    test_byte_count_null_file();
     test_byte_count_standard_file();
     test_byte_count_empty_file();
     test_byte_count_single_char_file();
@@ -231,6 +330,7 @@ int main() {
     test_byte_count_file_with_punctuation();
     test_byte_count_file_with_whitespaces();
 
+    test_line_count_null_file();
     test_line_count_standard_file();
     test_line_count_single_line_file();
     test_line_count_empty_file();
@@ -240,6 +340,7 @@ int main() {
     test_line_count_file_with_whitespaces();
     test_line_count_file_with_newlines_and_special_chars();
 
+    test_word_count_null_file();
     test_word_count_standard_file();
     test_word_count_empty_file();
     test_word_count_single_word_file();
@@ -249,6 +350,7 @@ int main() {
     test_word_count_file_with_punctuation();
     test_word_count_file_with_whitespaces();
 
+    test_char_count_null_file();
     test_char_count_standard_file();
     test_char_count_empty_file();
     test_char_count_single_word_file();
