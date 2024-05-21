@@ -102,6 +102,7 @@ int count_all(FILE *file, int *line_count, int *word_count, int *byte_count, int
     each individual count wouldn't work */
 
     set_locale();
+    if (!file) return -1;
 
     int in_word = 0;
     mbstate_t state = {0};

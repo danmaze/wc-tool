@@ -314,6 +314,119 @@ void test_char_count_newlines_and_special_characters() {
     }
 }
 
+void test_count_all_null_file() {
+    int lines, words, bytes, chars;
+    print_test_result(count_all(NULL, &lines, &words, &bytes, &chars) == -1, "count_all with null file");
+}
+
+void test_count_all_standard_file() {
+    FILE* file = open_file(get_test_file_path("standard.txt"));
+    if (file) {
+        int lines, words, bytes, chars;
+        int result = count_all(file, &lines, &words, &bytes, &chars);
+        print_test_result(
+            result == 0 && lines == 7145 && words == 58164 && bytes == 342190 && chars == 339292,
+            "count_all with standard file");
+        fclose(file);
+    }
+}
+
+void test_count_all_empty_file() {
+    FILE* file = open_file(get_test_file_path("empty.txt"));
+    if (file) {
+        int lines, words, bytes, chars;
+        int result = count_all(file, &lines, &words, &bytes, &chars);
+        print_test_result(
+            result == 0 && lines == 0 && words == 0 && bytes == 0 && chars == 0,
+            "count_all with empty file");
+        fclose(file);
+    }
+}
+
+void test_count_all_single_word_file() {
+    FILE* file = open_file(get_test_file_path("single_word.txt"));
+    if (file) {
+        int lines, words, bytes, chars;
+        int result = count_all(file, &lines, &words, &bytes, &chars);
+        print_test_result(
+            result == 0 && lines == 0 && words == 1 && bytes == 5 && chars == 5,
+            "count_all with single word file");
+        fclose(file);
+    }
+}
+
+void test_count_all_single_char_file() {
+    FILE* file = open_file(get_test_file_path("single_char.txt"));
+    if (file) {
+        int lines, words, bytes, chars;
+        int result = count_all(file, &lines, &words, &bytes, &chars);
+        print_test_result(
+            result == 0 && lines == 0 && words == 1 && bytes == 1 && chars == 1,
+            "count_all with single char file");
+        fclose(file);
+    }
+}
+
+void test_count_all_multiple_lines_file() {
+    FILE* file = open_file(get_test_file_path("multiple_lines.txt"));
+    if (file) {
+        int lines, words, bytes, chars;
+        int result = count_all(file, &lines, &words, &bytes, &chars);
+        print_test_result(
+            result == 0 && lines == 17 && words == 276 && bytes == 1672 && chars == 1672,
+            "count_all with multiple lines file");
+        fclose(file);
+    }
+}
+
+void test_count_all_unicode_file() {
+    FILE* file = open_file(get_test_file_path("unicode.txt"));
+    if (file) {
+        int lines, words, bytes, chars;
+        int result = count_all(file, &lines, &words, &bytes, &chars);
+        print_test_result(
+            result == 0 && lines == 17 && words == 62 && bytes == 521 && chars == 384,
+            "count_all with unicode file");
+        fclose(file);
+    }
+}
+
+void test_count_all_file_with_punctuation() {
+    FILE* file = open_file(get_test_file_path("punctuation.txt"));
+    if (file) {
+        int lines, words, bytes, chars;
+        int result = count_all(file, &lines, &words, &bytes, &chars);
+        print_test_result(
+            result == 0 && lines == 9 && words == 41 && bytes == 271 && chars == 265,
+            "count_all with file with punctuation");
+        fclose(file);
+    }
+}
+
+void test_count_all_file_with_whitespaces() {
+    FILE* file = open_file(get_test_file_path("whitespaces.txt"));
+    if (file) {
+        int lines, words, bytes, chars;
+        int result = count_all(file, &lines, &words, &bytes, &chars);
+        print_test_result(
+            result == 0 && lines == 9 && words == 31 && bytes == 202 && chars == 202,
+            "count_all with file with whitespaces");
+        fclose(file);
+    }
+}
+
+void test_count_all_newlines_and_special_characters() {
+    FILE* file = open_file(get_test_file_path("special_characters.txt"));
+    if (file) {
+        int lines, words, bytes, chars;
+        int result = count_all(file, &lines, &words, &bytes, &chars);
+        print_test_result(
+            result == 0 && lines == 48 && words == 135 && bytes == 1124 && chars == 1124,
+            "count_all with newlines and special characters");
+        fclose(file);
+    }
+}
+
 int main() {
     putchar('\n');
 
@@ -360,6 +473,17 @@ int main() {
     test_char_count_file_with_punctuation();
     test_char_count_file_with_whitespaces();
     test_char_count_newlines_and_special_characters();
+
+    test_count_all_null_file();
+    test_count_all_standard_file();
+    test_count_all_empty_file();
+    test_count_all_single_word_file();
+    test_count_all_single_char_file();
+    test_count_all_multiple_lines_file();
+    test_count_all_unicode_file();
+    test_count_all_file_with_punctuation();
+    test_count_all_file_with_whitespaces();
+    test_count_all_newlines_and_special_characters();
 
     putchar('\n');
     printf("%d of %d tests passed.\n", tests_passed, tests_run);
